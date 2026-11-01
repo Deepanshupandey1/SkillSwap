@@ -1,11 +1,11 @@
-# PeerLearn — MERN peer-mentorship platform
+# PeerLearn — MERN Peer-Mentorship Platform
 
-PeerLearn lets learners find a more experienced peer, request a focused session, collaborate live, and exchange credits after both participants confirm completion. This package keeps the supplied `frontend.zip` UI and connects it to an Express/MongoDB API; a small React/Vite shell loads the supplied static UI modules.
+PeerLearn is a full-stack peer-learning platform designed to help students find experienced mentors, exchange knowledge, and learn together through interactive sessions. Built using the MERN stack, it combines skill-based peer matching, credit-based session booking, real-time collaboration, and WebRTC video calling in one application. Users can search for mentors based on skills, languages, and availability, collaborate through a shared code editor and whiteboard, maintain session notes, and earn credits by helping others. The platform also includes an OpenAI-powered assistant for personalized mentor recommendations, session ratings, achievement badges, and a leaderboard. Its backend uses MongoDB to manage user profiles, bookings, sessions, credit transactions, and collaboration data, while Express.js and Socket.IO handle APIs and real-time communication.
 
 ## Stack
 
-- **MongoDB  + Mongoose** — users, skills, availability, bookings, sessions, ledger entries, ratings, messages, and seed data.
-- **Express  + Node.js** — REST API, validation, authentication, credit settlement, health endpoint, and optional OpenAI recommendations.
+- **MongoDB + Mongoose** — users, skills, availability, bookings, sessions, ledger entries, ratings, messages, and seed data.
+- **Express + Node.js** — REST API, validation, authentication, credit settlement, health endpoint, and optional OpenAI recommendations.
 - **React + Vite** — frontend app shell and development/build server, retaining the supplied SkillSwap UI.
 - **Socket.IO** — authenticated room presence, editor updates, whiteboard deltas, chat, notes, and WebRTC signaling.
 - **WebRTC** — peer-to-peer audio/video in the session room, with local/remote video, microphone, camera, and hang-up controls.
@@ -30,7 +30,7 @@ Credit transfers use multi-document MongoDB transactions, so do not run against 
 
 **Fix for `cannot index parallel arrays [topics] [skills]`:** the server now removes a legacy compound index containing both array fields during database startup and creates only the safe indexes declared by the current `User` schema. Restart the updated backend after replacing the project files. Do not manually create a compound index on both `topics` and `skills`; use separate indexes instead.
 
-## Start locally
+## Start Locally
 
 ### 1. Start MongoDB
 
@@ -48,7 +48,7 @@ docker exec -it peerlearn-mongo mongosh --eval 'try { rs.status().ok } catch (e)
 
 PowerShell users can run the same command from PowerShell if Docker Desktop is active. If you use MongoDB Atlas, use your replica-set connection string and skip the Docker step.
 
-### 2. Configure the environment and install dependencies
+### 2. Configure the Environment and Install Dependencies
 
 From the project root, copy `server/.env.example` to `server/.env` (PowerShell: `Copy-Item server/.env.example server/.env`). Set `JWT_SECRET` to a private random value of at least 32 characters. Keep `ENABLE_DEMO_AUTH=true` for the sample accounts; set it to `false` on deployments where seeded identities should not be used. Add your OpenAI key to `OPENAI_API_KEY` for AI explanations. Keep the key in the backend environment only, never in client code.
 
@@ -59,7 +59,7 @@ npm install
 npm run seed
 ```
 
-### 3. Start the backend and frontend
+### 3. Start the Backend and Frontend
 
 Start the backend in terminal one:
 
@@ -79,7 +79,7 @@ npm run dev:client
 
 Open `http://localhost:5173`. The sign-in screen supports account creation and login, or the seeded demo account. The frontend environment defaults to the local API at `http://localhost:5000/api` and Socket.IO at `http://localhost:5000`; optionally override those in `client/.env` using `VITE_API_URL` and `VITE_SOCKET_URL`.
 
-## Demo accounts
+## Demo Accounts
 
 The seed script creates these accounts with password `PeerLearn123!`:
 
@@ -92,7 +92,7 @@ The seed script creates these accounts with password `PeerLearn123!`:
 
 The sign-in screen supports your own account registration and login, or the demo account above. The demo user menu lets each browser tab switch to a seeded identity. Open two tabs and set one to a learner and the other to a mentor when testing a live room. Demo balances/history are illustrative; newly registered accounts receive 500 welcome credits and their own credit ledger.
 
-## Recommended smoke test
+## Recommended Smoke Test
 
 1. Log in as Riya in one browser tab and Rohan in a second tab. Password: `PeerLearn123!`.
 2. As Riya, search for DSA / C++ and request an Easy session with Rohan. Rohan should see the request.
@@ -102,7 +102,7 @@ The sign-in screen supports your own account registration and login, or the demo
 6. Confirm completion from both accounts, then check the learner's ledger, mentor earnings, recap, rating, and leaderboard.
 7. In the directory AI panel, choose `DSA` and language `C++`; with `OPENAI_API_KEY` configured, the assistant also explains why the available matches fit.
 
-## Credit policy
+## Credit Policy
 
 | Event | Credits |
 |---|---:|
@@ -112,23 +112,23 @@ The sign-in screen supports your own account registration and login, or the demo
 | Hard session (45 min) | 100 |
 | Eligible 4- or 5-star helpfulness bonus | +5 to mentor |
 
-## Main folders
+## Main Folders
 
 ```text
 peerlearn/
-├── package.json                    # Root npm workspace scripts
-├── client/                         # React/Vite shell + supplied SkillSwap UI
-│   ├── src/main.jsx                # Mounts UI inside React app shell
-│   └── src/supplied-ui/            # Original frontend modules adapted to API
-├── server/                         # Express + MongoDB + Socket.IO API
+├── package.json                 # Root npm workspace scripts
+├── client/                      # React/Vite shell + supplied SkillSwap UI
+│   ├── src/main.jsx              # Mounts UI inside React app shell
+│   └── src/supplied-ui/          # Original frontend modules adapted to API
+├── server/                      # Express + MongoDB + Socket.IO API
 │   └── src/
-│       ├── models/                 # Users, bookings, sessions, credits, ratings, messages
-│       ├── routes/                  # REST API including AI recommendations
-│       ├── sockets/                # Room sync and WebRTC signaling
-│       └── seed/                   # Demo users/questions
-└── docker-compose.yml              # MongoDB replica set
+│       ├── models/               # Users, bookings, sessions, credits, ratings, messages
+│       ├── routes/               # REST API including AI recommendations
+│       ├── sockets/              # Room sync and WebRTC signaling
+│       └── seed/                 # Demo users/questions
+└── docker-compose.yml            # MongoDB replica set
 ```
 
-## Important verification notes
+## Important Verification Notes
 
 Static verification performed on this package: JavaScript syntax, React JSX parsing, 77 local import paths, named import/export references, package JSON, and checks that frontend record seeds/local room state are removed. A production Vite build and live integration run still need to be performed in an environment where npm dependencies can be installed and MongoDB is reachable. The app needs installed npm dependencies, a running MongoDB replica set, and browser permissions to exercise end-to-end. A valid `OPENAI_API_KEY` is required for generated AI explanations; without it, deterministic profile-based recommendations remain available. Video connectivity across restrictive networks can require a properly secured TURN service. If you configure `TURN_URLS`, `TURN_USERNAME`, and `TURN_CREDENTIAL` in `server/.env`, authenticated clients receive those ICE server settings from `/api/rtc/config`; production deployments should use short-lived TURN credentials. Keep `.env` private and do not commit API keys.
