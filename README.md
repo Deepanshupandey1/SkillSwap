@@ -4,8 +4,8 @@ PeerLearn lets learners find a more experienced peer, request a focused session,
 
 ## Stack
 
-- **MongoDB + Mongoose** — users, skills, availability, bookings, sessions, ledger entries, ratings, messages, and seed data.
-- **Express + Node.js** — REST API, validation, authentication, credit settlement, health endpoint, and optional OpenAI recommendations.
+- **MongoDB  + Mongoose** — users, skills, availability, bookings, sessions, ledger entries, ratings, messages, and seed data.
+- **Express  + Node.js** — REST API, validation, authentication, credit settlement, health endpoint, and optional OpenAI recommendations.
 - **React + Vite** — frontend app shell and development/build server, retaining the supplied SkillSwap UI.
 - **Socket.IO** — authenticated room presence, editor updates, whiteboard deltas, chat, notes, and WebRTC signaling.
 - **WebRTC** — peer-to-peer audio/video in the session room, with local/remote video, microphone, camera, and hang-up controls.
